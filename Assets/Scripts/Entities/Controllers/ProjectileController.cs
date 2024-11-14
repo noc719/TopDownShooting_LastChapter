@@ -106,11 +106,20 @@ public class ProjectileController : MonoBehaviour
         transform.localScale = Vector3.one * _attackData.size;
     }
 
-    private void DestroyProjectile(Vector3 position, bool createFx)
+    private void DestroyProjectile(Vector3 position, bool createFx) //공용으로 만들고 불러와서 파티클 시스템을 운용하는중
     {
         if (createFx)
         {
-            // TODO : ParticleSystem에 대해서 배우고, 무기 NameTag로 해당하는 FX가져오기
+            ParticleSystem particleSystem = GameManager.Instance.EffectParicle;
+            //게임 매니저의 이펙트 파티클에 접근
+
+            particleSystem.transform.position = position; //해당 파티클의 포지션은 충돌지점으로 설정
+            ParticleSystem.EmissionModule en = particleSystem.emission; //파티클의 생성부분의 기능 접근
+            en.SetBurst(0, new ParticleSystem.Burst(0, Mathf.Ceil(_attackData.size * 5)));
+            ParticleSystem.MainModule mm = particleSystem.main;
+            mm.startSpeedMultiplier = _attackData.size * 10;
+            particleSystem.Play(); //파티클 시스템 실행
+
         }
         gameObject.SetActive(false);
     }
