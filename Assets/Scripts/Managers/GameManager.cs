@@ -5,16 +5,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum UpgradeOption
+{
+    MaxHealth,
+    AttackPower,
+    Speed,
+    Knockback,
+    AttackDelay,
+    NumberOfProjectiles,
+    Count // 실제 쓰이는 enum이 아닌 값이 얼마나 들어가있는지 확인하는 용도
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    [SerializeField] private string playerTag = "Player";
+
+    [SerializeField] private CharacterStat defaultsStats; //적에게 부여할 기본 스탯
+    [SerializeField] private CharacterStat rangedStats; //원거리 적에게 부여할 스탯
 
     public Transform Player { get; private set; }
     public ObjectPool ObjectPool { get; private set; }
     public ParticleSystem EffectParicle;
     
-    [SerializeField] private string playerTag = "Player";
-
     private HealthSystem playerHealthSystem;
 
     [SerializeField] private TextMeshProUGUI waveTxt;
@@ -47,15 +60,27 @@ public class GameManager : MonoBehaviour
         playerHealthSystem.OnHeal += UpdateHealthUI;
         playerHealthSystem.OnDeath += GameOver;
 
+        UpgradeStatInit();
+
         for (int i = 0; i < spawnPositionsRoot.childCount; i++)
         {
             spawnPositions.Add(spawnPositionsRoot.GetChild(i)); //GetChild 는 Transform을 반환
         }
     }
 
+
     private void Start()
     {
         StartCoroutine(StartNextWave());
+    }
+
+    private void UpgradeStatInit()
+    {
+        defaultsStats.statsChangeType =StatsChangeType.Add;
+        defaultsStats.attackSO = Instantiate(defaultsStats.attackSO);
+
+        rangedStats.statsChangeType = StatsChangeType.Add;
+        rangedStats.attackSO = Instantiate(rangedStats.attackSO);
     }
 
     IEnumerator StartNextWave()
@@ -97,6 +122,8 @@ public class GameManager : MonoBehaviour
         int prefabsIdx = Random.Range(0,enemyPrefebs.Count);
         GameObject enemy = Instantiate(enemyPrefebs[prefabsIdx], spawnPositions[posIdx].position, Quaternion.identity);
         //회전없이 나오기 위해선 Quternion.Identity
+        enemy.GetComponent<CharacterStatHandler>().AddStatModifier(defaultsStats);
+        enemy.GetComponent<CharacterStatHandler>().AddStatModifier(rangedStats);
         enemy.GetComponent<HealthSystem>().OnDeath += OnEnemyDeath; //Enemy에 HealthSystem을 부여하고 이벤트 등록
         currentSpawnCount++;
     }
@@ -155,7 +182,39 @@ public class GameManager : MonoBehaviour
 
     private void RandomUpgrade()
     {
-        Debug.Log("RandomUpgrade 호출");
+        UpgradeOption option = (UpgradeOption)Random.Range(0,(int)UpgradeOption.Count);//Count를 갯수를 세는 용도로 사용하여 난수를 돌림
+        switch (option)
+        {
+            case UpgradeOption.MaxHealth:
+                defaultsStats.maxHealth += 2;
+                break;
+
+            case UpgradeOption.AttackPower:
+                defaultsStats.attackSO.power += 1;
+                break;
+
+            case UpgradeOption.Speed:
+                defaultsStats.speed += 0.1f;
+                break;
+
+            case UpgradeOption.Knockback:
+                defaultsStats.attackSO.isOnKnockback = true;
+                defaultsStats.attackSO.knockbackPower += 1;
+                defaultsStats.attackSO.knockbackTime = 0.1f;
+                break;
+
+            case UpgradeOption.AttackDelay:
+                defaultsStats.attackSO.delay -= 0.05f;
+                break;
+
+            case UpgradeOption.NumberOfProjectiles:
+                RangedAttackSO rangedAttackData = rangedStats.attackSO as RangedAttackSO;
+                if (rangedAttackData != null) rangedAttackData.numberofProjectilesPerShot += 1;
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void GameOver()

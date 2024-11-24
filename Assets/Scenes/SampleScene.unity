@@ -390,8 +390,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bec6ff980cb4a44b814cacb83eee8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectParicle: {fileID: 0}
   playerTag: Player
+  defaultsStats:
+    statsChangeType: 0
+    maxHealth: 0
+    speed: 0
+    attackSO: {fileID: 11400000, guid: 838ebf1053d276d4fb698ea015dc5635, type: 2}
+  rangedStats:
+    statsChangeType: 0
+    maxHealth: 0
+    speed: 0
+    attackSO: {fileID: 11400000, guid: ff74721c9e41cf24aa3ac2dd030e830b, type: 2}
+  EffectParicle: {fileID: 0}
   waveTxt: {fileID: 1691190943}
   hpGaugeSlider: {fileID: 2120775659}
   gameoverUI: {fileID: 1244002156}
