@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform spawnPositionsRoot; 
     private List<Transform> spawnPositions = new List<Transform>(); //자식들의 스폰위치를 담은 리스트
 
+    [SerializeField] private List<GameObject> rewards = new List<GameObject>(); //아이템을 담을 리스트
+
     private void Awake()
     {
         Instance = this;
@@ -138,7 +140,11 @@ public class GameManager : MonoBehaviour
 
     private void CreateReward()
     {
-        Debug.Log("CreateReward 호출");
+        int selectedRewardIndex = Random.Range(0,rewards.Count);
+        int randomPositionIndex = Random.Range(0,spawnPositions.Count);
+
+        GameObject obj = rewards[selectedRewardIndex];
+        Instantiate(obj,spawnPositions[randomPositionIndex].position, Quaternion.identity);
     }
 
     private void IncreaseSpawnPositions()

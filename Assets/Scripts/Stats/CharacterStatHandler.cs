@@ -7,7 +7,7 @@ public class CharacterStatHandler : MonoBehaviour
 {
     // 기본 스탯과 버프 스탯들의 능력치를 종합해서 스탯을 계산하는 컴포넌트
     [SerializeField] private CharacterStat baseStats;
-    public CharacterStat CurrentStat { get; private set; } = new(); //baseStat으로 기본값을 할당해주기 전에 오류를 방지하기 위해 new 키워드로 초기화를 시켜준다.
+    [field:SerializeField]public CharacterStat CurrentStat { get; private set; } = new(); //baseStat으로 기본값을 할당해주기 전에 오류를 방지하기 위해 new 키워드로 초기화를 시켜준다.
     public List<CharacterStat> statsModifiers = new List<CharacterStat>();
 
     //능력치 최소값//
@@ -15,23 +15,23 @@ public class CharacterStatHandler : MonoBehaviour
     //공격부분
     private readonly float MinAttackDelay = 0.03f;
     private readonly float MinAttackPower = 0.5f;
-    private readonly float MinAttackSize = 0.5f;
-    private readonly float MinAttackSpeed = 0.5f;
+    private readonly float MinAttackSize = 0.4f;
+    private readonly float MinAttackSpeed = 0.1f;
     //이동속도
-    private readonly float MinSpeed = 0.5f;
+    private readonly float MinSpeed = 0.8f;
     //체력
     private readonly int MinMaxHealth = 5;
 
     private void Awake()
     {
-        UpdateCharacterStat();
-
         if(baseStats.attackSO != null)
         {
+            Debug.Log("비었다");
             baseStats.attackSO = Instantiate(baseStats.attackSO); //실행될 때 baseStats에 attackSO가  없다면 SO에 입력된 값대로 새로 생성
             CurrentStat.attackSO = Instantiate(baseStats.attackSO);//현재 스탯에도 baseStats에 등록된 attackSO와 동일하게 생성
         }
 
+        UpdateCharacterStat();
     }
 
     private void UpdateCharacterStat()

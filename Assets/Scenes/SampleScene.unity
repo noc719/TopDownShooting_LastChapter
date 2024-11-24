@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &67329298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6129374753812521457, guid: 53799e823b96c1f4ebe0a664fd63d7de, type: 3}
+  m_PrefabInstance: {fileID: 1455359213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &98451514
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +401,10 @@ MonoBehaviour:
   - {fileID: 4079989309037695842, guid: d5fd2f127f6c9904aaa150f2c3d06f04, type: 3}
   - {fileID: 3488683658982175108, guid: a738b03f57f60204aa2b3bebd7ebeca0, type: 3}
   spawnPositionsRoot: {fileID: 599213968}
+  rewards:
+  - {fileID: 7723744914958935788, guid: 23335ff9f8a64114982b2ad5c293a7c9, type: 3}
+  - {fileID: 506875004286085863, guid: a6d9fdfd3baad684a89ee232f936aa7a, type: 3}
+  - {fileID: 4007763682753208482, guid: 432b74cc20ae139419a1feeb328d8236, type: 3}
 --- !u!4 &253197284
 Transform:
   m_ObjectHideFlags: 0
@@ -13483,10 +13492,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2553477529677121055, guid: 53799e823b96c1f4ebe0a664fd63d7de, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6129374753812521457, guid: 53799e823b96c1f4ebe0a664fd63d7de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1455359218}
   m_SourcePrefab: {fileID: 100100000, guid: 53799e823b96c1f4ebe0a664fd63d7de, type: 3}
 --- !u!198 &1455359214 stripped
 ParticleSystem:
@@ -13498,6 +13511,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8399222551506720569, guid: 53799e823b96c1f4ebe0a664fd63d7de, type: 3}
   m_PrefabInstance: {fileID: 1455359213}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1455359218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67329298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ac83b6e914ea94e9eb059405216ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createDustOnWalk: 1
+  dustParticleSystem: {fileID: 0}
 --- !u!1 &1459500133
 GameObject:
   m_ObjectHideFlags: 0
@@ -13724,9 +13751,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats:
     statsChangeType: 2
-    maxHealth: 10
+    maxHealth: 40
     speed: 5
     attackSO: {fileID: 11400000, guid: 4a2206d7ff2ca29428534b9ed0a93b98, type: 2}
+  <CurrentStat>k__BackingField:
+    statsChangeType: 0
+    maxHealth: 40
+    speed: 5
+    attackSO: {fileID: 0}
   statsModifiers: []
 --- !u!95 &1459500145
 Animator:
